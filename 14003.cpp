@@ -13,7 +13,7 @@ int main(void)
 	cout.tie(NULL);
 	ios_base::sync_with_stdio(false);
 
-	int N, tmpIndex = -1, lenofLIS = 0;
+	int N, lenofLIS = 0;
 	stack<ll> lis;
 	vector<ll> vt;
 	vector<ll> index;

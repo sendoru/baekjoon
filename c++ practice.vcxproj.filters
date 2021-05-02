@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="14003.cpp">
+    <ClCompile Include="dijkstra.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

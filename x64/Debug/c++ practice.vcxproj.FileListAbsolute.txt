@@ -1,1 +1,2 @@
 C:\Users\sendo\GitHub\baekjoon\x64\Debug\c++ practice.exe
+C:\Users\sendo\OneDrive - 경희대학교\programming\c++\baekjoon\x64\Debug\c++ practice.exe

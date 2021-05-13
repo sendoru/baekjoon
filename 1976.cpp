@@ -1,38 +1,30 @@
 #include <iostream>
 #include <vector>
+#include <unordered_map>
+#include <string>
 
 using namespace std;
+typedef long long ll;
 
-// Disjiont는 집합의 집합(?)이라고 생각하면 될듯
 template <typename T>
 class Disjoint
 {
 public:
 	T data;
+	ll size;
 	Disjoint* parent;
 
 	Disjoint()
 	{
-		data = 0;
+		size = 1;
 		parent = this;
 	}
 
 	Disjoint(T data_)
 	{
 		data = data_;
+		size = 1;
 		parent = this;
-	}
-
-	Disjoint(T data_, Disjoint parent_)
-	{
-		data = data_;
-		parent = &parent_;
-	}
-
-	Disjoint(T data_, Disjoint* parent_)
-	{
-		data = data_;
-		parent = parent_;
 	}
 
 	Disjoint* getParent()
@@ -45,27 +37,34 @@ public:
 		return parent = tempParent;
 	}
 
-	bool hasSameParents(Disjoint other)
+	bool hasSameParents(Disjoint* other)
 	{
-		return getParent() == other.getParent();
+		return getParent() == other->getParent();
 	}
 
-	void unite(Disjoint other)
+	void unite(Disjoint* other)
 	{
 		Disjoint* d1 = getParent();
-		Disjoint* d2 = other.getParent();
+		Disjoint* d2 = other->getParent();
 		if (d1 == d2)
 		{
 			return;
 		}
 		if (d1->data < d2->data)
 		{
+			d1->size += d2->size;
 			d2->parent = d1->parent;
 		}
 		else
 		{
+			d2->size += d1->size;
 			d1->parent = d2->parent;
 		}
+	}
+
+	ll getSize()
+	{
+		return getParent()->size;
 	}
 };
 
@@ -75,40 +74,42 @@ int main(void)
 	cin.tie(NULL);
 	cout.tie(NULL);
 
-	int n, m;
-	cin >> n >> m;
-
-	vector<Disjoint<int> > disjoints(n + 1);
-	vector<int> connects(n + 1);
-	vector<int> route(m);
-
-	for (int i = 1; i <= n; i++)
+	int t;
+	cin >> t;
+	while (t--)
 	{
-		for (int j = 1; j <= n; j++)
+		int f;
+		cin >> f;
+		unordered_map<string, Disjoint<string> > people;
+		while (f--)
 		{
-			cin >> connects[j];
-			if (connects[j])
+			string f1Name, f2Name;
+			cin >> f1Name >> f2Name;
+
+			if (people.find(f1Name) == people.end())
 			{
-				disjoints[i].unite(disjoints[j]);
+				people.insert({ f1Name, Disjoint<string>(f1Name) });
 			}
+			Disjoint<string>* f1 = &(people[f1Name]);
+			if (f1->parent->data == "")
+			{
+				f1->parent = f1;
+			}
+
+			if (people.find(f2Name) == people.end())
+			{
+				people.insert({ f2Name, Disjoint<string>(f2Name) });
+			}
+			Disjoint<string>* f2 = &(people[f2Name]);
+			if (f2->parent->data == "")
+			{
+				f2->parent = f2;
+			}
+
+			f1->unite(f2);
+			cout << f1->getSize() << '\n';
 		}
 	}
 
-	bool connected = true;
-	for (int i = 0; i < m; i++)
-	{
-		cin >> route[i];
-	}
-
-	for (int i = 1; i < m; i++)
-	{
-		if (!disjoints[route[0]].hasSameParents(disjoints[route[i]]))
-		{
-			connected = false;
-			break;
-		}
-	}
-
-	cout << (connected ? "YES" : "NO") << '\n';
 	return 0;
 }

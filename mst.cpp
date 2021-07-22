@@ -64,11 +64,6 @@ int main(void)
 		{
 			unite(edges[i].second.first, edges[i].second.second, parent);
 			sum += edges[i].first;
-			count++;
-			if (count == countofVertexes - 2)
-			{
-				break;
-			}
 		}
 	}
 

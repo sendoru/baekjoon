@@ -8,7 +8,7 @@ int main(void)
 {
 	int n;
 	cin >> n;
-	vector<vector<vector<ll> > > v(n + 1, vector<vector<ll> >(10, vector<ll>(1 << 10)));
+	vector<vector<vector<ll> > > v(n + 1, vector<vector<ll> >(10, vector<ll>(1ll << 10)));
 	for (int i = 1; i < 10; i++)
 	{
 		v[1][i][1ll << i] = 1;

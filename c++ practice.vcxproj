@@ -19,8 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="13925.cpp" />
-    <ClCompile Include="lazySegTree.cpp" />
+    <ClCompile Include="codeforces\cf_r731_e.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

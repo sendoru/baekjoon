@@ -35,22 +35,22 @@ int getMin(vector<int>& tree, int node, int start, int end, int left, int right)
 	return min(getMin(tree, node * 2, start, (start + end) / 2, left, right), getMin(tree, node * 2 + 1, (start + end) / 2 + 1, end, left, right));
 }
 
-void dfs(vector<vector<int>>& graph, vector<int>& eulerRoute, vector<int>& depth, vector<int>& indextoOrder, vector<int>& ordertoIndex, vector<int>& firstApp, int curNode, int curDepth, int& order)
+void dfs(vector<vector<int>>& graph, vector<int>& eulerRoute, vector<int>& depth, vector<int>& indextoOrder, vector<int>& ordertoIndex, vector<int>& firstApp, int curNode, int curDepth)
 {
 	depth[curNode] = curDepth;
-	indextoOrder[curNode] = order;
-	ordertoIndex[order] = curNode;
-	eulerRoute.push_back(order);
+	indextoOrder[curNode] = ordertoIndex.size();
+	int order = indextoOrder[curNode];
+	ordertoIndex.push_back(curNode);
 	if (firstApp[order] == -1)
 	{
-		firstApp[order] = eulerRoute.size() - 1;
+		firstApp[order] = eulerRoute.size();
 	}
-	order++;
 	for (int nextNode : graph[curNode])
 	{
 		if (depth[nextNode] == -1)
 		{
-			dfs(graph, eulerRoute, depth, indextoOrder, ordertoIndex, firstApp, nextNode, curDepth + 1, order);
+			eulerRoute.push_back(order);
+			dfs(graph, eulerRoute, depth, indextoOrder, ordertoIndex, firstApp, nextNode, curDepth + 1);
 		}
 	}
 	if (eulerRoute.back() != order)
@@ -67,7 +67,7 @@ int main(void)
 
 	int n, q, c, d, order = 1;
 	cin >> n;
-	vector<int> a(n), b(n), indextoOrder(n + 1), ordertoIndex(n + 1), depth(n + 1, -1), firstApp(n + 1, -1),  eulerRoute;
+	vector<int> a(n), b(n), indextoOrder(n + 1), ordertoIndex(1), depth(n + 1, -1), firstApp(n + 1, -1), eulerRoute;
 	vector<vector<int>> graph(n + 1, vector<int>());
 	for (int i = 1; i < n; i++)
 	{
@@ -75,7 +75,7 @@ int main(void)
 		graph[a[i]].push_back(b[i]);
 		graph[b[i]].push_back(a[i]);
 	}
-	dfs(graph, eulerRoute, depth, indextoOrder, ordertoIndex, firstApp, 1, 0, order);
+	dfs(graph, eulerRoute, depth, indextoOrder, ordertoIndex, firstApp, 1, 0);
 
 	int h = (int)ceil(log2(eulerRoute.size()));
 	int treeSize = 1 << (h + 1);
@@ -83,8 +83,6 @@ int main(void)
 	init(eulerRoute, tree, 1, 0, eulerRoute.size() - 1);
 
 	cin >> q;
-	// 최단거리가 짝수 -> 마을에서 만남
-	// 최단거리가 홀수 -> 길에서 만남
 	for (int i = 0; i < q; i++)
 	{
 		cin >> c >> d;
@@ -95,7 +93,7 @@ int main(void)
 			cConv = dConv;
 			dConv = temp;
 		}
-		int LCAOrder = getMin(tree, 1, 1, eulerRoute.size() - 1, firstApp[cConv], firstApp[dConv]);
+		int LCAOrder = getMin(tree, 1, 0, eulerRoute.size() - 1, firstApp[cConv], firstApp[dConv]);
 		int LCAIndex = ordertoIndex[LCAOrder];
 		cout << LCAIndex << '\n';
 	}

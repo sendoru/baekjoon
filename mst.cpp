@@ -39,7 +39,7 @@ int main(void)
 
 
 	// 간선들 모아둔 벡터. vector<pair<가중치, pair<시작점, 도착점> > > 형태
-	vector < pair<int, pair<int, int> > > edges;
+	vector<pair<int, pair<int, int>>> edges;
 
 	for (int i = 0; i < MAX; i++)
 	{

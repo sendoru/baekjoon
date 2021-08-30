@@ -15,8 +15,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="codeforces\cf_r731_e.cpp">
-      <Filter>리소스 파일</Filter>
+    <ClCompile Include="1289.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

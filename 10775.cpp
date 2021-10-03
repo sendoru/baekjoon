@@ -1,72 +1,10 @@
 #include <iostream>
 #include <vector>
-#include <unordered_map>
 #include <string>
+#include <set>
 
 using namespace std;
 typedef long long ll;
-
-template <typename T>
-class Disjoint
-{
-public:
-	T data;
-	ll size;
-	Disjoint* parent;
-
-	Disjoint()
-	{
-		size = 1;
-		parent = this;
-	}
-
-	Disjoint(T data_)
-	{
-		data = data_;
-		size = 1;
-		parent = this;
-	}
-
-	Disjoint* getParent()
-	{
-		if (parent == this)
-		{
-			return this;
-		}
-		Disjoint* tempParent = parent->getParent();
-		return parent = tempParent;
-	}
-
-	bool hasSameParents(Disjoint* other)
-	{
-		return getParent() == other->getParent();
-	}
-
-	void unite(Disjoint* other)
-	{
-		Disjoint* d1 = getParent();
-		Disjoint* d2 = other->getParent();
-		if (d1 == d2)
-		{
-			return;
-		}
-		if (d1->data < d2->data)
-		{
-			d1->size += d2->size;
-			d2->parent = d1->parent;
-		}
-		else
-		{
-			d2->size += d1->size;
-			d1->parent = d2->parent;
-		}
-	}
-
-	ll getSize()
-	{
-		return getParent()->size;
-	}
-};
 
 int main(void)
 {
@@ -76,15 +14,11 @@ int main(void)
 
 	int g, p;
 	cin >> g >> p;
+	set<int, greater<int>> s;
 	vector<int> planes;
-	vector<Disjoint<int> > parents;
-	for (int i = 0; i <= g; i++)
+	for (int i = 1; i <= g; i++)
 	{
-		parents.push_back(Disjoint<int>(i));
-	}
-	for (int i = 0; i <= g; i++)
-	{
-		parents[i].parent = &parents[i];
+		s.insert(i);
 	}
 	for (int i = 0; i < p; i++)
 	{
@@ -94,13 +28,13 @@ int main(void)
 	}
 	int ans = 0;
 	for (int elem : planes)
-	{
-		Disjoint<int>* temp = parents[elem].getParent();
-		if (temp == &parents[0])
+	{	
+		auto iter = s.lower_bound(elem);
+		if (iter == s.end() || *iter > elem)
 		{
 			break;
 		}
-		(*temp).unite(&parents[temp->data - 1]);
+		s.erase(iter);
 		ans++;
 	}
 

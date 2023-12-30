@@ -1,7 +1,10 @@
-x64/
+source/x64/
 .vs/
-뭘까/
-21_mobis/
+source/뭘까/
+source/21_mobis/
+source/22_khu/
+source/22_mobis_본선
+
 *.vcxproj
 *.vcxproj.*
 *.sln

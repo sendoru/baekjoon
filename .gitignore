@@ -1,5 +1,7 @@
 source/x64/
 .vs/
+.vscode/
+build/
 source/뭘까/
 source/21_mobis/
 source/22_khu/

@@ -3,4 +3,4 @@ project(untitled)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(untitled source/boj/3037.cpp)
+add_executable(untitled source/boj/14619.cpp)

@@ -3,4 +3,9 @@ project(untitled)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(untitled source/boj/13029.cpp)
+add_executable(
+    untitled
+    ${CMAKE_SOURCE_DIR}/source/boj/31406.cpp
+)
+
+target_include_directories(untitled PUBLIC ${CMAKE_SOURCE_DIR})
